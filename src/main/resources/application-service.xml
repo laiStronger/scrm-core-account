@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	<!-- 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类 -->
+	<!-- <dubbo:annotation package="com.youanmi.service" /> -->
+
+	<!-- 提供方应用信息，用于计算依赖关系 日志： log4j slf4j jcl jdk -->
+	<dubbo:application name="account" organization="scrm"
+		owner="scrm" version="1.0.0" logger="slf4j" />
+
+
+	<!-- 注册中心配置，使用multicast广播注册中心暴露服务地址 check:false 关闭注册中心启动时检查 -->
+	<!-- <dubbo:registry id="zookeeper" protocol="zookeeper" address="192.168.1.46:2181,192.168.1.54:2181,192.168.1.57:2181" 
+		/> -->
+	<dubbo:registry id="zookeeper" protocol="zookeeper"
+		address="${dubbo.zookeeper.address}" />
+
+	<!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 -->
+	<!-- <dubbo:registry address="10.20.141.150:9090|10.20.154.177:9010" /> -->
+
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="${account.protocol.dubbo.port}" />
+	<!-- <dubbo:protocol name="http" port="8063" server="servlet" /> -->
+
+	<dubbo:consumer check="false" />
+
+	<import resource="classpath:application-provider.xml" />
+	<import resource="classpath:application-consumer.xml" />
+</beans>

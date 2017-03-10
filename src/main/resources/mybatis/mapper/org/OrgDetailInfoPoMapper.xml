@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="OrgDetailInfoPoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.youanmi.scrm.core.account.po.org.OrgDetailInfoPo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="org_id" property="orgId" jdbcType="BIGINT" />
+		<result column="province_id" property="provinceId" jdbcType="BIGINT" />
+		<result column="province_name" property="provinceName"
+			jdbcType="VARCHAR" />
+		<result column="city_id" property="cityId" jdbcType="BIGINT" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="area_id" property="areaId" jdbcType="BIGINT" />
+		<result column="area_name" property="areaName" jdbcType="VARCHAR" />
+		<result column="business_license" property="businessLicense"
+			jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, org_id, province_id, province_name, city_id, city_name, area_id,
+		area_name, business_license,
+		address, create_time, update_time, is_delete
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from org_detail_info
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from org_detail_info
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.youanmi.scrm.core.account.po.org.OrgDetailInfoPo">
+		insert into org_detail_info (id, org_id, province_id,
+		province_name, city_id, city_name,
+		area_id, area_name, business_license,
+		address, create_time, update_time,
+		is_delete)
+		values (#{id,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT},
+		#{provinceId,jdbcType=BIGINT},
+		#{provinceName,jdbcType=VARCHAR}, #{cityId,jdbcType=BIGINT}, #{cityName,jdbcType=VARCHAR},
+		#{areaId,jdbcType=BIGINT}, #{areaName,jdbcType=VARCHAR},
+		#{businessLicense,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
+		#{isDelete,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.youanmi.scrm.core.account.po.org.OrgDetailInfoPo"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into org_detail_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orgId != null">
+				org_id,
+			</if>
+			<if test="provinceId != null">
+				province_id,
+			</if>
+			<if test="provinceName != null">
+				province_name,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="areaId != null">
+				area_id,
+			</if>
+			<if test="areaName != null">
+				area_name,
+			</if>
+			<if test="businessLicense != null">
+				business_license,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			is_delete
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=BIGINT},
+			</if>
+			<if test="provinceId != null">
+				#{provinceId,jdbcType=BIGINT},
+			</if>
+			<if test="provinceName != null">
+				#{provinceName,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=BIGINT},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="areaId != null">
+				#{areaId,jdbcType=BIGINT},
+			</if>
+			<if test="areaName != null">
+				#{areaName,jdbcType=VARCHAR},
+			</if>
+			<if test="businessLicense != null">
+				#{businessLicense,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=BIGINT},
+			</if>
+			1
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.youanmi.scrm.core.account.po.org.OrgDetailInfoPo">
+		update org_detail_info
+		<set>
+			<if test="orgId != null">
+				org_id = #{orgId,jdbcType=BIGINT},
+			</if>
+			<if test="provinceId != null">
+				province_id = #{provinceId,jdbcType=BIGINT},
+			</if>
+			<if test="provinceName != null">
+				province_name = #{provinceName,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=BIGINT},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="areaId != null">
+				area_id = #{areaId,jdbcType=BIGINT},
+			</if>
+			<if test="areaName != null">
+				area_name = #{areaName,jdbcType=VARCHAR},
+			</if>
+			<if test="businessLicense != null">
+				business_license = #{businessLicense,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=BIGINT},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.youanmi.scrm.core.account.po.org.OrgDetailInfoPo">
+		update org_detail_info
+		set org_id = #{orgId,jdbcType=BIGINT},
+		province_id = #{provinceId,jdbcType=BIGINT},
+		province_name = #{provinceName,jdbcType=VARCHAR},
+		city_id = #{cityId,jdbcType=BIGINT},
+		city_name = #{cityName,jdbcType=VARCHAR},
+		area_id = #{areaId,jdbcType=BIGINT},
+		area_name = #{areaName,jdbcType=VARCHAR},
+		business_license = #{businessLicense,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=BIGINT},
+		update_time = #{updateTime,jdbcType=BIGINT},
+		is_delete = #{isDelete,jdbcType=TINYINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据机构id查询机构详情 -->
+	<select id="getOrgDetailByOrgId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select id, org_id, province_id, province_name, city_id, city_name, area_id,
+				area_name, business_license,
+				address 
+			from org_detail_info
+				where org_id = #{orgId,jdbcType=BIGINT}
+					and is_delete = 1
+	</select>
+	
+	<!--  编辑门店信息 -->
+	<update id="updateByParam"
+		parameterType="com.youanmi.scrm.core.account.po.org.OrgDetailInfoPo">
+		update org_detail_info
+		set province_id = #{provinceId,jdbcType=BIGINT},
+		province_name = #{provinceName,jdbcType=VARCHAR},
+		city_id = #{cityId,jdbcType=BIGINT},
+		city_name = #{cityName,jdbcType=VARCHAR},
+		area_id = #{areaId,jdbcType=BIGINT},
+		area_name = #{areaName,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		update_time = #{updateTime,jdbcType=BIGINT}
+		where org_id = #{orgId,jdbcType=BIGINT}
+	</update>
+	<!-- 查询地址信息 -->
+	<select id="getOrgAddress" parameterType="java.lang.Long"
+			resultType="com.youanmi.scrm.api.account.dto.org.OrgAddressDto">
+		  SELECT
+			odi.province_name as provinceName,
+			odi.city_name as cityName,
+			odi.area_name as areaName,
+			odi.address as address,
+			oi.org_name as orgName
+		  FROM
+			org_detail_info odi
+		  LEFT JOIN org_info oi ON odi.org_id = oi.id
+		  where org_id = #{orgId,jdbcType=BIGINT}
+	</select>
+</mapper>

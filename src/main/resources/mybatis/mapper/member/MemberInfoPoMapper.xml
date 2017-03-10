@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MemberInfoPoMapper" >
+  <resultMap id="BaseResultMap" type="com.youanmi.scrm.core.account.po.member.MemberInfoPo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="birthday" property="birthday" jdbcType="BIGINT" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+    <result column="thum_head_url" property="thumHeadUrl" jdbcType="VARCHAR" />
+    <result column="wx_no" property="wxNo" jdbcType="VARCHAR" />
+    <result column="wx_name" property="wxName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="OrgMemberInfoResultMap" type="com.youanmi.scrm.core.account.bo.OrgMemberInfoBo" extends="BaseResultMap">
+    <result column="top_org_id" property="topOrgId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, gender, birthday, area, head_url, thum_head_url, wx_no, wx_name, create_time, 
+    update_time, is_delete
+  </sql>
+  <sql id="condition" >
+  	<if test="userName != null" >
+        and user_name = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="gender != null" >
+        and gender = #{gender,jdbcType=TINYINT}
+      </if>
+      <if test="birthday != null" >
+        and birthday = #{birthday,jdbcType=BIGINT}
+      </if>
+      <if test="area != null" >
+        and area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="headUrl != null" >
+        and head_url = #{headUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="thumHeadUrl != null" >
+        and thum_head_url = #{thumHeadUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="wxNo != null" >
+        and wx_no = #{wxNo,jdbcType=VARCHAR}
+      </if>
+      <if test="wxName != null" >
+        and wx_name = #{wxName,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=BIGINT}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=BIGINT}
+      </if>
+      <if test="isDelete != null" >
+        and is_delete = #{isDelete,jdbcType=TINYINT}
+      </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from member_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- selectByParams -->
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select
+    <include refid="Base_Column_List" />
+    from member_info
+    where 1=1
+    <include refid="condition" />
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from member_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.youanmi.scrm.core.account.po.member.MemberInfoPo" keyProperty="id" useGeneratedKeys="true">
+    insert into member_info (id, user_name, gender, 
+      birthday, area, head_url, 
+      thum_head_url, wx_no, wx_name, 
+      create_time, update_time, is_delete
+      )
+    values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
+      #{birthday,jdbcType=BIGINT}, #{area,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR}, 
+      #{thumHeadUrl,jdbcType=VARCHAR}, #{wxNo,jdbcType=VARCHAR}, #{wxName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{isDelete,jdbcType=TINYINT}
+      )
+  </insert>
+  <!--@author liulj 2017年2月23日-->
+  <select id="getByWxNo" resultMap="BaseResultMap">
+    select
+           <include refid="Base_Column_List"/>
+     from member_info
+    where wx_no=#{wxNo} and is_delete=1
+  </select>
+  <!--@author liulj 2017年3月3日-->
+  <select id="getByUserName"  resultMap="BaseResultMap">
+    select
+          <include refid="Base_Column_List"/>
+     from member_info
+    where user_name=#{userName} and is_delete=1
+  </select>
+  <!--@author liulj 2017年3月3日-->
+  <select id="getPageByBirthday"  resultMap="OrgMemberInfoResultMap">
+      select m.id, m.user_name, m.gender, n.birthday, m.area, m.head_url, m.thum_head_url, m.wx_no, m.wx_name, m.create_time,
+              m.update_time,n.top_org_id
+        from org_customer_relation n
+ inner join member_info m on m.is_delete=1 and m.id=n.member_id
+      where n.birthday=#{birthday} and n.is_delete=1
+  </select>
+  <insert id="insertSelective" parameterType="com.youanmi.scrm.core.account.po.member.MemberInfoPo" >
+    insert into member_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="headUrl != null" >
+        head_url,
+      </if>
+      <if test="thumHeadUrl != null" >
+        thum_head_url,
+      </if>
+      <if test="wxNo != null" >
+        wx_no,
+      </if>
+      <if test="wxName != null" >
+        wx_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="headUrl != null" >
+        #{headUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="thumHeadUrl != null" >
+        #{thumHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxNo != null" >
+        #{wxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wxName != null" >
+        #{wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.youanmi.scrm.core.account.po.member.MemberInfoPo" >
+    update member_info
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="headUrl != null" >
+        head_url = #{headUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="thumHeadUrl != null" >
+        thum_head_url = #{thumHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxNo != null" >
+        wx_no = #{wxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wxName != null" >
+        wx_name = #{wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.youanmi.scrm.core.account.po.member.MemberInfoPo" >
+    update member_info
+    set user_name = #{userName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      birthday = #{birthday,jdbcType=BIGINT},
+      area = #{area,jdbcType=VARCHAR},
+      head_url = #{headUrl,jdbcType=VARCHAR},
+      thum_head_url = #{thumHeadUrl,jdbcType=VARCHAR},
+      wx_no = #{wxNo,jdbcType=VARCHAR},
+      wx_name = #{wxName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      is_delete = #{isDelete,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

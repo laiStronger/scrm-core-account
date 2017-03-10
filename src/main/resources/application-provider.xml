@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+        
+	<!-- 用户service -->
+	<bean id="userInfoService"
+		class="com.youanmi.scrm.core.account.service.user.UserInfoService" />
+	<dubbo:service
+		interface="com.youanmi.scrm.api.account.service.user.IUserInfoService"
+		ref="userInfoService" version="1.0.0" group="${account.dubbo.group}"
+		timeout="6000">
+		<dubbo:method name="updatePhoneAndActiveByUser" retries="0"/>
+		<!-- <dubbo:method name="xxx" retries="0"></dubbo:method> -->
+	</dubbo:service>
+
+	<!-- 机构service -->
+	<bean id="orgInfoService"
+		  class="com.youanmi.scrm.core.account.service.org.OrgInfoService" />
+	<dubbo:service
+			interface="com.youanmi.scrm.api.account.service.org.IOrgInfoService"
+			ref="orgInfoService" version="1.0.0" group="${account.dubbo.group}"
+			timeout="6000">
+		<dubbo:method name="updateOrgName" retries="0"/>
+		<dubbo:method name="addOrg" retries="0"/>
+		<dubbo:method name="deleteOrg" retries="0"/>
+		<!-- <dubbo:method name="xxx" retries="0"></dubbo:method> -->
+	</dubbo:service>
+	
+	<!-- 商户员工service -->
+	<bean id="orgStaffService"
+		class="com.youanmi.scrm.core.account.service.org.OrgStaffService" />
+	<dubbo:service
+		interface="com.youanmi.scrm.api.account.service.org.IOrgStaffService"
+		ref="orgStaffService" version="1.0.0" group="${account.dubbo.group}"
+		timeout="6000">
+	</dubbo:service>
+	<!-- 机构详情service -->
+	<bean id="orgDetailInfoService"
+		  class="com.youanmi.scrm.core.account.service.org.OrgDetailInfoService" />
+	<dubbo:service
+			interface="com.youanmi.scrm.api.account.service.org.IOrgDetailInfoService"
+			ref="orgDetailInfoService" version="1.0.0" group="${account.dubbo.group}"
+			timeout="6000">
+	</dubbo:service>
+	<!-- 机构岗位service -->
+	<bean id="orgPostService"
+		  class="com.youanmi.scrm.core.account.service.org.OrgPostService" />
+	<dubbo:service
+			interface="com.youanmi.scrm.api.account.service.org.IOrgPostService"
+			ref="orgPostService" version="1.0.0" group="${account.dubbo.group}"
+			timeout="6000">
+	</dubbo:service>
+
+	<!--门店员工service-->
+	<dubbo:service
+			interface="com.youanmi.scrm.api.account.service.shop.IShopStaffService"
+			ref="shopStaffService" version="1.0.0" group="${account.dubbo.group}"
+			timeout="6000">
+		<dubbo:method name="changePost" retries="0"/>
+	</dubbo:service>
+	
+	<!-- 机构过期service -->
+	<bean id="orgExpireTimeService"
+		  class="com.youanmi.scrm.core.account.service.org.OrgExpireTimeService" />
+	<dubbo:service
+			interface="com.youanmi.scrm.api.account.service.org.IOrgExpireTimeService"
+			ref="orgExpireTimeService" version="1.0.0" group="${account.dubbo.group}"
+			timeout="6000">
+	</dubbo:service>
+	
+	<!-- 会员service -->
+	<bean id="memberInfoService"
+							  class="com.youanmi.scrm.core.account.service.member.MemberInfoService" />
+	<dubbo:service
+			interface="com.youanmi.scrm.api.account.service.member.IMemberInfoService"
+			ref="memberInfoService" version="1.0.0" group="${account.dubbo.group}"
+			timeout="6000">
+	</dubbo:service>
+</beans>
